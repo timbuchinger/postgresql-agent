@@ -1,111 +1,44 @@
-# Active Context: PostgreSQL Agent
+# Active Context
 
 ## Current State
-
-### Implementation Status
-- Basic agent system implemented
-- Core database connectivity in place
-- LiteLLM integration complete
-- Query processing pipeline functional
-
-### Active Components
-1. **Database Connection**
-   - Basic PostgreSQL connection established
-   - Query execution functional
-   - Schema retrieval implemented
-
-2. **AI Agents**
-   - Database Analyst agent using Mistral model
-   - Query Builder agent operational
-   - Answer Formatter agent set up
-   - Sequential processing implemented
-
-3. **Tools**
-   - SQL execution tool ready
-   - Schema inspection tool functional
-   - LiteLLM wrapper integrated
+- Basic implementation complete with core functionality working
+- Single agent successfully handling both query generation and response formatting
+- Environment-based configuration in place
+- Special handling for schema queries implemented
 
 ## Recent Changes
-- Switched from Ollama to LiteLLM provider
-- Added environment configuration for LiteLLM
-- Implemented LiteLLMWrapper class
-- Updated agent configuration for specified model
+- Upgraded to llama-3.3-70b-versatile model
+- Implemented structured output format for schema queries
+- Added RealDictCursor for improved result handling
+
+## Active Decisions
+1. Two-Phase Query Process
+   - Separate SQL generation from response formatting
+   - Enables specialized handling of different query types
+   - Maintains clean separation of concerns
+
+2. Error Handling Strategy
+   - User-friendly error messages
+   - Graceful handling of database connection issues
+   - Clear feedback for invalid queries
 
 ## Current Focus
-1. **Immediate Priorities**
-   - Testing LiteLLM integration
-   - Configuration management for database and LiteLLM
-   - Error handling improvements
-   - Documentation updates
-
-2. **Active Decisions**
-   - Using specified model via LiteLLM
-   - Environment-based configuration for LiteLLM
-   - Sequential processing for agent tasks
-   - JSON formatting for query results
+- Stability and reliability of query generation
+- Quality of natural language responses
+- Error handling robustness
 
 ## Next Steps
+1. Short Term
+   - Add input validation for user questions
+   - Improve error message clarity
+   - Add query timeout handling
 
-### Short Term
-1. **Security Enhancements**
-   - Secure credential management
-   - Query sanitization
-   - Result filtering
-   - Environment variable security
+2. Medium Term
+   - Support for more complex query types
+   - Enhanced schema query capabilities
+   - Query performance optimization
 
-2. **Functionality Improvements**
-   - Enhanced error handling
-   - Query optimization
-   - Result caching
-   - Connection pooling
-
-### Medium Term
-1. **Feature Additions**
-   - Query template system
-   - Schema caching
-   - Performance monitoring
-   - Result pagination
-
-### Long Term
-1. **System Evolution**
-   - Support for multiple databases
-   - Advanced query optimization
-   - Enhanced error recovery
-   - Automated testing
-
-## Open Questions
-1. **Security**
-   - Best practices for environment variable management
-   - Query sanitization strategies
-   - Access control implementation
-
-2. **Performance**
-   - LLM API response times
-   - Connection pooling configuration
-   - Query optimization techniques
-   - Result caching strategies
-
-3. **Scalability**
-   - Multiple database support
-   - High availability considerations
-   - Load balancing options
-
-## Active Considerations
-
-### Technical Debt
-- Environment configuration needs validation
-- Error handling could be more robust
-- Testing coverage needed
-- Documentation requires expansion
-
-### Risk Factors
-- Database connection security
-- LLM API availability
-- Query performance
-- Error recovery
-
-### Opportunities
-- Enhanced query optimization
-- Improved error handling
-- Extended documentation
-- Automated testing implementation
+3. Long Term
+   - Support for database modifications (INSERT, UPDATE, DELETE)
+   - Query history logging
+   - Result caching for frequent queries

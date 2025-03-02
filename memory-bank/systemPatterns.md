@@ -1,126 +1,60 @@
-# System Patterns: PostgreSQL Agent
+# System Patterns
 
 ## Architecture Overview
-
-### Multi-Agent System
-```mermaid
-graph TD
-    User[User Question] --> Analyst[Database Analyst Agent]
-    Analyst --> QueryBuilder[SQL Query Builder Agent]
-    QueryBuilder --> AnswerGen[Answer Formatter Agent]
-    AnswerGen --> Response[Human-Readable Answer]
-
-    subgraph Tools
-        DB[(PostgreSQL DB)]
-        Schema[Schema Tool]
-        Query[Query Tool]
-    end
-
-    Analyst -.-> Schema
-    QueryBuilder -.-> Query
-    Query -.-> DB
-    Schema -.-> DB
-```
-
-## Core Components
-
-### 1. Database Connection Layer
-- PostgresConnector class handles database interactions
-- Connection pooling and management
-- Query execution and error handling
-- Schema introspection capabilities
-
-### 2. Agent Framework
-- Built on CrewAI and LangChain
-- LiteLLM model integration
-- Sequential task processing
-- Inter-agent communication
-
-### 3. Tool System
-- LangChain Tool framework integration
-- Database-specific tools:
-  - execute_sql: Query execution
-  - get_schema: Schema inspection
+The system follows a single-agent architecture using CrewAI for task orchestration, with a two-phase query process for handling database interactions.
 
 ## Design Patterns
 
-### 1. Agent Specialization
-- **Database Analyst**: Schema understanding and analysis
-- **Query Builder**: SQL generation and optimization
-- **Answer Formatter**: Result interpretation and presentation
+### Agent Pattern
+- Single specialized agent acting as Database Query Expert
+- No delegation allowed to maintain simplicity
+- Consistent role and backstory for reliable query interpretation
 
-### 2. Task Pipeline
-- Sequential processing flow
-- Context passing between tasks
-- Lambda functions for dynamic context updates
+### Two-Phase Query Process
+1. Query Generation Phase
+   - Input: Natural language question
+   - Processing: Translation to SQL query
+   - Output: Pure SQL query string
+   
+2. Response Formatting Phase
+   - Input: Query results and original question
+   - Processing: Context-aware formatting
+   - Output: Natural language response or structured schema output
 
-### 3. Dependency Injection
-- Configurable database connection
-- Modular LLM integration
-- Extensible tool system
+### Database Connection Management
+- Connection per query pattern
+- Context manager implementation (`with` statements)
+- RealDictCursor for JSON-like result access
 
-## Technical Implementations
+### Error Handling
+- Try-catch wrapping for database operations
+- User-friendly error messages
+- Clean connection cleanup through context managers
 
-### Database Operations
-```python
-class PostgresConnector:
-    # Connection management
-    # Query execution
-    # Schema introspection
-    # Result formatting
+## Component Relationships
+```mermaid
+flowchart TD
+    User[User Input] --> Agent[Database Query Expert]
+    Agent --> QueryGen[Query Generation]
+    QueryGen --> DB[(PostgreSQL DB)]
+    DB --> Results[Raw Results]
+    Results --> Format[Response Formatting]
+    Format --> User
 ```
 
-### Agent Configuration
-```python
-Agent(
-    role="specific_role",
-    goal="defined_goal",
-    backstory="expertise_context",
-    tools=tool_list,
-    llm=llm_instance
-)
-```
+## Technical Decisions
 
-### Task Definition
-```python
-Task(
-    description="task_description",
-    agent=assigned_agent,
-    expected_output="output_specification",
-    context=lambda: previous_task.output
-)
-```
+### Stateless Operation
+- No conversation history storage
+- Fresh context for each query
+- Reduced complexity and memory usage
 
-## Integration Points
+### Single File Implementation
+- All components in one file
+- Clear function separation
+- Easy deployment and maintenance
 
-### External Systems
-- PostgreSQL database
-- LiteLLM provider
-- CrewAI framework
-- LangChain tools
-
-### Internal Components
-- Connection management
-- Query processing
-- Result formatting
-- Error handling
-
-## Best Practices
-
-### 1. Database Interactions
-- Connection string configuration
-- Prepared statements for queries
-- Error handling and reporting
-- Resource cleanup
-
-### 2. Agent Communication
-- Structured task handoffs
-- Clear context passing
-- Error propagation
-- Result validation
-
-### 3. System Configuration
-- Environment-based settings
-- Modular component setup
-- Extensible architecture
-- Clear dependency management
+### Environment Configuration
+- External configuration via .env
+- Sensitive data protection
+- Flexible deployment options
