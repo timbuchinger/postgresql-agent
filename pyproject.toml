@@ -1,0 +1,39 @@
+[project]
+name = "postgresql-agent"
+version = "0.1.0"
+description = "Natural language to SQL query system using AI agents"
+requires-python = ">=3.9"
+dependencies = [
+    "crewai",
+    "psycopg2-binary",
+    "python-dotenv",
+    "ollama",
+    "langchain",
+    "langchain-core",
+    "litellm",
+    "langchain-community",
+    "langchain-openai"
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "isort",
+    "ruff",
+    "mypy"
+]
+
+[tool.black]
+line-length = 88
+target-version = ["py39"]
+
+[tool.isort]
+profile = "black"
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "I", "B"]
+
+[tool.mypy]
+python_version = "3.9"
+strict = true
