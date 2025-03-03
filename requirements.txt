@@ -2,3 +2,4 @@ crewai
 groq
 psycopg2-binary
 python-dotenv
+streamlit
