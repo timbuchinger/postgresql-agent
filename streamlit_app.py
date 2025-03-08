@@ -8,25 +8,41 @@ from agent import PostgreSQLAgent
 def get_agent():
     return PostgreSQLAgent()
 
+
 def main():
     st.title("PostgreSQL Query Assistant")
 
     # Initialize agent in session state if not already present
-    if 'agent' not in st.session_state:
+    if "agent" not in st.session_state:
         with st.spinner("Initializing agent..."):
             st.session_state.agent = get_agent()
 
     # User input section
-    st.markdown("""
+    st.markdown(
+        """
     ### Ask a question about your database
     Examples:
     - "Show me the schema of the users table"
     - "How many orders were placed in the last week?"
     - "What are the top 5 products by revenue?"
-    """)
+    """
+    )
+
+    # Predefined prompts
+    prompt_options = [
+        "Select a predefined prompt...",
+        "List the tables in the database",
+        "Describe the schema of the _table_ table",
+    ]
+    selected_prompt = st.selectbox("Predefined Prompts:", prompt_options)
 
     # Create a text input for the user's question
-    question = st.text_area("Enter your question:", height=100, max_chars=500)
+    if selected_prompt != "Select a predefined prompt...":
+        question = st.text_area(
+            "Enter your question:", value=selected_prompt, height=100, max_chars=500
+        )
+    else:
+        question = st.text_area("Enter your question:", height=100, max_chars=500)
 
     # Add a button to submit the question
     if st.button("Get Answer"):
@@ -44,6 +60,7 @@ def main():
 
             except Exception as e:
                 st.error(f"An error occurred: {str(e)}")
+
 
 if __name__ == "__main__":
     main()
