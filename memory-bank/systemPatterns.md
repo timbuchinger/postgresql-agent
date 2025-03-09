@@ -19,7 +19,10 @@ The system follows a single-agent architecture using CrewAI for task orchestrati
 2. Response Formatting Phase
    - Input: Query results and original question
    - Processing: Context-aware formatting
-   - Output: Natural language response or structured schema output
+   - Output: Structured response in one of three formats:
+     1. Schema Format: Table structure with columns and data types
+     2. Relationship Format: Hierarchical view of table relationships
+     3. Data Format: Natural language synthesis of query results
 
 ### Database Connection Management
 - Connection per query pattern

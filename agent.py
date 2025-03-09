@@ -35,8 +35,8 @@ class PostgreSQLAgent:
         self.max_iterations = max_iterations
         self.max_results = max_results
 
-        # Initialize Groq LLM # qwen-qwq-32b
-        self.llm = LLM(model="groq/llama-3.3-70b-versatile", temperature=0.7)
+        # Initialize Groq LLM # llama-3.3-70b-versatile
+        self.llm = LLM(model="groq/qwen-qwq-32b", temperature=0.7)
 
         # Create the database agent
         self.agent = self._create_db_agent()
@@ -248,17 +248,36 @@ class PostgreSQLAgent:
                         Question: {question}
                         Combined Results: {accumulated_results}
 
-                        If the query was about table schema/structure, format the output exactly as:
+                        Apply one of these formatting templates based on the query type:
+
+                        1. For table schema/structure queries:
                         [table name]
                         - [column name] ([data type])
 
-                        Example format:
+                        Example:
                         users
                         - id (integer)
                         - email (varchar)
                         - created_at (timestamp)
 
-                        For non-schema queries, provide a natural language response that synthesizes information from all queries.
+                        2. For table relationship queries:
+                        [table name]
+                        Relationships:
+                          → [related table] via [column] = [foreign column]
+                            Type: [relationship type]
+
+                        Example:
+                        stocks
+                        Relationships:
+                          → price_history via symbol = symbol
+                            Type: One-to-Many
+                          → stock_news via symbol = symbol
+                            Type: One-to-Many
+
+                        3. For data queries:
+                        Provide a natural language response that synthesizes the information.
+
+                        Determine the query type from the question and format accordingly.
                         """,
                         agent=self.agent,
                         expected_output="Natural language response",

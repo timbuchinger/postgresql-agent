@@ -10,6 +10,10 @@
 - Upgraded to llama-3.3-70b-versatile model
 - Implemented structured output format for schema queries
 - Added RealDictCursor for improved result handling
+- Enhanced response formatting with specialized templates for:
+  - Table schema queries
+  - Table relationship queries
+  - Data queries
 
 ## Active Decisions
 1. Two-Phase Query Process
