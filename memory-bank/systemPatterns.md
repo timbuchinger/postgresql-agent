@@ -61,3 +61,10 @@ flowchart TD
 - External configuration via .env
 - Sensitive data protection
 - Flexible deployment options
+
+### Authentication Pattern (Planned)
+- Cookie-based session management via streamlit-authenticator
+- YAML configuration for user credentials
+- Bcrypt password hashing
+- Role-based access control (future)
+See `features/authentication.md` for detailed implementation plan

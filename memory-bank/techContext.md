@@ -7,6 +7,7 @@
 - PostgreSQL for database
 - psycopg2-binary for database connectivity
 - python-dotenv for environment management
+- streamlit-authenticator (planned) for user authentication
 
 ## Development Setup
 1. Install dependencies from requirements.txt

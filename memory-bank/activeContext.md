@@ -46,3 +46,4 @@
    - Support for database modifications (INSERT, UPDATE, DELETE)
    - Query history logging
    - Result caching for frequent queries
+   - User authentication implementation using streamlit-authenticator (see features/authentication.md)
